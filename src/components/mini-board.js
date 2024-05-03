@@ -17,17 +17,17 @@ function Square({ value, onClick}) {
     );
 }
 
-export default function Board({ winner, squares, squareClick }) {
+export default function Board({ winner, squares, squareClick, turn }) {
   let color;
   switch(winner[1]) {
     case '@': //no overal winner and local winner
       color = winner[0] == 'x' ? "border-blue-400" : "border-red-400";
       break;
     case '#': //overal winner
-      color = winner[0] == 'x' ? "border-blue-600" : "border-red-600";
+      color = winner[0] == 'x' ? "border-blue-700" : "border-red-700";
       break;
     case '$': //active board
-      color = "border-emerald-400";
+      color = turn == 'x' ? "border-cyan-200" : "border-rose-200";
       break;
     default: //inactive board
       color = "border-slate-300";
@@ -35,7 +35,7 @@ export default function Board({ winner, squares, squareClick }) {
   }
   
   return (
-    <div className={"border-4 " + color}>
+    <div className={"border-8 " + color}>
       <div className="flex flex-row">
         <Square value={squares[0]} onClick={() => squareClick(0)} />
         <Square value={squares[1]} onClick={() => squareClick(1)} />

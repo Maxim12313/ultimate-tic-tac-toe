@@ -14,7 +14,6 @@ import Board from "./mini-board";
 //inactive = ' '
 export default function BigBoard() {
   const [turn, setTurn] = useState('x');
-  const [playIdx, setPlayIdx] = useState(-1); //-1 means all 
   const [bigBoard, setBigBoard] = useState(Array(9).fill(' $')); 
   const [board, setBoard] = useState(Array(9).fill(Array(9).fill('  ')));
 
@@ -52,55 +51,57 @@ export default function BigBoard() {
     
     nextBoard[bigIdx][i] = turn;
 
-    let nextBigBoard;
-    let nextPlayIdx;
-    if (bigBoard[i][1] == '@') { //local winner exists
-      nextPlayIdx == -1;      
-      nextBigBoard = bigBoard.map((x) => {
-        if (x[1] == ' ') return x[0] + '$';
-        else return x;
-      })
-    }
-    else {
-      nextPlayIdx = i;      
-      nextBigBoard = bigBoard.map((x) => {
-        if (x[1] == '$') return x[0] + ' ';
-        else return x;
-      });
-      nextBigBoard[i] = nextBigBoard[i][0] + '$';
-    }
 
+    let nextBigBoard = bigBoard.map((x) => {
+      return [...x];
+    })
     
+    let skip = false;
     let nextTurn = turn == 'x' ? 'o' : 'x';
     if (winning(nextBoard[bigIdx])) {
       nextBigBoard[bigIdx] = turn + '@';
       if (winning(nextBigBoard)) {
-        nextBigBoard[i] = nextBigBoard[i][0] + ' '; //reset inactive
         nextTurn = '#';
+        skip = true;
       }
     }
-    
+    if (!skip) {
+      if (nextBigBoard[i][1] == '@') { //local winner exists
+        nextBigBoard = nextBigBoard.map((x) => {
+          if (x[1] == ' ') return x[0] + '$';
+          else return x;
+        })
+      }
+      else {
+        nextBigBoard = nextBigBoard.map((x) => {
+          if (x[1] == '$') return x[0] + ' ';
+          else return x;
+        });
+        nextBigBoard[i] = nextBigBoard[i][0] + '$';
+      }
+    }
     setTurn(nextTurn);
     setBoard(nextBoard);
     setBigBoard(nextBigBoard);
   }
 
+
   return (
     <div>
       <div className="flex flex-row">
-        <Board winner={bigBoard[0]} squares={board[0]} squareClick={(i) => handleClick(0, i)} />
-        <Board winner={bigBoard[1]} squares={board[1]} squareClick={(i) => handleClick(1, i)} />
-        <Board winner={bigBoard[2]} squares={board[2]} squareClick={(i) => handleClick(2, i)} />
+        <Board turn={turn} winner={bigBoard[0]} squares={board[0]} squareClick={(i) => handleClick(0, i)} />
+        <Board turn={turn} winner={bigBoard[1]} squares={board[1]} squareClick={(i) => handleClick(1, i)} />
+        <Board turn={turn} winner={bigBoard[2]} squares={board[2]} squareClick={(i) => handleClick(2, i)} />
       </div>
       <div className="flex flex-row">
-        <Board winner={bigBoard[3]} squares={board[3]} squareClick={(i) => handleClick(3, i)} />
-        <Board winner={bigBoard[4]} squares={board[4]} squareClick={(i) => handleClick(4, i)} />
-        <Board winner={bigBoard[5]} squares={board[5]} squareClick={(i) => handleClick(5, i)} />
+        <Board turn={turn} winner={bigBoard[3]} squares={board[3]} squareClick={(i) => handleClick(3, i)} />
+        <Board turn={turn} winner={bigBoard[4]} squares={board[4]} squareClick={(i) => handleClick(4, i)} />
+        <Board turn={turn} winner={bigBoard[5]} squares={board[5]} squareClick={(i) => handleClick(5, i)} />
       </div>
       <div className="flex flex-row">
-        <Board winner={bigBoard[6]} squares={board[6]} squareClick={(i) => handleClick(6, i)} />
-        <Board winner={bigBoard[7]} squares={board[7]} squareClick={(i) => handleClick(7, i)} />
-        <Board winner={bigBoard[8]} squares={board[8]} squareClick={(i) => handleClick(8, i)} />
+        <Board turn={turn} winner={bigBoard[6]} squares={board[6]} squareClick={(i) => handleClick(6, i)} />
+        <Board turn={turn} winner={bigBoard[7]} squares={board[7]} squareClick={(i) => handleClick(7, i)} />
+        <Board turn={turn} winner={bigBoard[8]} squares={board[8]} squareClick={(i) => handleClick(8, i)} />
       </div>
     </div>
   );
