@@ -7,7 +7,7 @@ function Square({ value, onClick}) {
     const color = value == null || value.length == 1 ? "bg-white" : winColor;
     return (
       <button 
-        className={color + " text-4xl flex justify-center items-center w-16 h-16 border-2 border-black"}
+        className={color + " text-5xl flex justify-center items-center w-16 h-16 border-2 border-black"}
         onClick={onClick}
       >
         { readVal }
@@ -15,50 +15,13 @@ function Square({ value, onClick}) {
     );
 }
 
-export default function Board() {
-  const [turn, setTurn] = useState('x');
-  const [squares, setSquares] = useState(Array(9).fill(null));
-  
-  const winning = () => {
-    for (let i = 0; i < 3; i++) {
-      const base = i * 3;
-      //hor
-      if (squares[base] != null && squares[base] == squares[base + 1] && squares[base] == squares[base + 2]) {
-        squares[base] = squares[base + 1] = squares[base + 2] = squares[base] + '#';
-        return true;
-      }
-      //ver
-      if (squares[i] != null && squares[i] == squares[i + 3] && squares[i] == squares[i + 6]) {
-        squares[i] = squares[i + 3] = squares[i + 6] = squares[i] + '#';
-        return true;
-      }
-    }
-    //diag
-    if (squares[0] != null && squares[0] == squares[4] && squares[0] == squares[8]) {
-      squares[0] = squares[4] = squares[8] = squares[0] + '#';
-      return true;
-    }
-    if (squares[2] != null && squares[2] == squares[4] && squares[2] == squares[6]) {
-      squares[2] = squares[4] = squares[6] = squares[2] + '#';
-      return true;
-    }
-    return false;
+export default function Board({ winner, squares, squareClick }) {
+  let color = "border-emerald-600";
+  if (winner != null) {
+    color = winner[0] == 'x'? "border-blue-400" : "border-red-400";
   }
-
-  const squareClick = (i) => {
-    if (squares[i] != null || turn == '#') return; //# = game finished
-
-    const nextSquares = squares;
-    nextSquares[i] = turn;
-    setSquares(nextSquares);
-
-    const nextVal = turn == 'x' ? 'o' : 'x';
-    const nextTurn = winning() ? '#' : nextVal;
-    setTurn(nextTurn);
-  }
-  
   return (
-    <div className="border-4 border-emerald-600">
+    <div className={"border-4 " + color}>
       <div className="flex flex-row">
         <Square value={squares[0]} onClick={() => squareClick(0)} />
         <Square value={squares[1]} onClick={() => squareClick(1)} />
