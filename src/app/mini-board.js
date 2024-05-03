@@ -7,7 +7,7 @@ function Square({ value, onClick}) {
     const color = value == null || value.length == 1 ? "bg-white" : winColor;
     return (
       <button 
-        className={color + " flex justify-center items-center w-10 h-10 text-lg border-2 border-black"}
+        className={color + " text-4xl flex justify-center items-center w-16 h-16 border-2 border-black"}
         onClick={onClick}
       >
         { readVal }
