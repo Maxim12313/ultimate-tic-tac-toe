@@ -1,10 +1,12 @@
 "use client";
-import { useState } from "react";
 
 function Square({ value, onClick}) {
-    const readVal = value == null ? null : value[0];
-    const winColor = readVal == 'x' ? "bg-blue-300" : "bg-red-300";
-    const color = value == null || value.length == 1 ? "bg-white" : winColor;
+    const readVal = value[0];
+    let color = "bg-white";
+    if (value[1] == '#') {
+      color = readVal == 'x' ? "bg-blue-300" : "bg-red-300";
+    }
+
     return (
       <button 
         className={color + " text-5xl flex justify-center items-center w-16 h-16 border-2 border-black"}
@@ -16,10 +18,22 @@ function Square({ value, onClick}) {
 }
 
 export default function Board({ winner, squares, squareClick }) {
-  let color = "border-emerald-600";
-  if (winner != null) {
-    color = winner[0] == 'x'? "border-blue-400" : "border-red-400";
+  let color;
+  switch(winner[1]) {
+    case '@': //no overal winner and local winner
+      color = winner[0] == 'x' ? "border-blue-400" : "border-red-400";
+      break;
+    case '#': //overal winner
+      color = winner[0] == 'x' ? "border-blue-600" : "border-red-600";
+      break;
+    case '$': //active board
+      color = "border-emerald-400";
+      break;
+    default: //inactive board
+      color = "border-slate-300";
+      break;
   }
+  
   return (
     <div className={"border-4 " + color}>
       <div className="flex flex-row">
