@@ -4,7 +4,7 @@ import BigBoard from './big-board';
 export default function Home() {
   return (
     <div className="flex justify-center items-center h-dvh">
-      <div className="bg-yellow-200 p-72">
+      <div className="bg-yellow-200 p-16">
         <BigBoard />
       </div>
     </div>
