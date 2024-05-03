@@ -15,7 +15,6 @@ function Square({ value, onClick}) {
     );
 }
 
-
 export default function Board() {
   const [turn, setTurn] = useState('x');
   const [squares, setSquares] = useState(Array(9).fill(null));
@@ -30,7 +29,7 @@ export default function Board() {
       }
       //ver
       if (squares[i] != null && squares[i] == squares[i + 3] && squares[i] == squares[i + 6]) {
-        squares[i] = squares[base + 1] = squares[squares + 2] = squares[i] + '#';
+        squares[i] = squares[i + 3] = squares[i + 6] = squares[i] + '#';
         return true;
       }
     }
@@ -59,7 +58,7 @@ export default function Board() {
   }
   
   return (
-    <div>
+    <div className="border-4 border-emerald-600">
       <div className="flex flex-row">
         <Square value={squares[0]} onClick={() => squareClick(0)} />
         <Square value={squares[1]} onClick={() => squareClick(1)} />
