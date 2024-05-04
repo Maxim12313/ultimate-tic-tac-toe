@@ -1,7 +1,8 @@
 "use client";
+import Link from "next/link";
 
+export default function Page() {
 
-export default function Home() {
   return (
     <div className="flex justify-center items-center h-dvh">
       <div className="flex p-44 bg-orange-300 flex-col rounded-3xl justify-center">
@@ -11,11 +12,9 @@ export default function Home() {
             <input className="w-full px-4 rounded-lg" placeholder="username"></input> 
             <button className="shrink-0 bg-slate-50 p-3 rounded-lg">Create Game</button>
           </form>
-          <a href="http://localhost:3000/game" className="w-full">
-            <button className="w-full bg-slate-50 p-3 rounded-lg">
-              Pass and Play
-            </button>
-          </a>
+          <Link href="/pass-play" className="w-full bg-slate-50 p-3 rounded-lg flex justify-center">
+            Pass and Play
+          </Link>
           <button className="bg-slate-50 py-3 rounded-lg">
             Single Player
           </button>

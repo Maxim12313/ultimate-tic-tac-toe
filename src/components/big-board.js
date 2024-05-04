@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import Board from "./mini-board";
+import Image from "next/image";
+import restartImage from "../images/restart.png";
 
 //board data = val, winner / non-winner
 //# = winner
@@ -12,82 +14,22 @@ import Board from "./mini-board";
 //global winner = #
 //active = $
 //inactive = ' '
-export default function BigBoard() {
-  const [turn, setTurn] = useState('x');
-  const [bigBoard, setBigBoard] = useState(Array(9).fill(' $')); 
-  const [board, setBoard] = useState(Array(9).fill(Array(9).fill('  ')));
-
-  const winning = (squares) => {
-    for (let i = 0; i < 3; i++) {
-      const base = i * 3;
-      //hor
-      if (squares[base][0] != ' ' && squares[base][0] == squares[base + 1][0] && squares[base][0] == squares[base + 2][0]) {
-        squares[base] = squares[base + 1]= squares[base + 2] = squares[base][0] + '#';
-        return true;
-      }
-      //ver
-      if (squares[i][0] != ' ' && squares[i][0] == squares[i + 3][0] && squares[i][0] == squares[i + 6][0]) {
-        squares[i] = squares[i + 3] = squares[i + 6] = squares[i][0] + '#';
-        return true;
-      }
-    }
-    //diag
-    if (squares[0][0] != ' ' && squares[0][0] == squares[4][0] && squares[0][0] == squares[8][0]) {
-      squares[0] = squares[4] = squares[8] = squares[0][0] + '#';
-      return true;
-    }
-    if (squares[2][0] != ' ' && squares[2][0] == squares[4][0] && squares[2][0] == squares[6][0]) {
-      squares[2] = squares[4] = squares[6] = squares[2][0] + '#';
-      return true;
-    }
-    return false;
-  }
-  const handleClick = (bigIdx, i) => {
-    if (bigBoard[bigIdx][1] != '$' || board[bigIdx][i][0] != ' ' || turn == '#') return;
-
-    const nextBoard = board.map((val) => {
-      return [...val];
-    });
-    
-    nextBoard[bigIdx][i] = turn;
-
-
-    let nextBigBoard = bigBoard.map((x) => {
-      return [...x];
-    })
-    
-    let skip = false;
-    let nextTurn = turn == 'x' ? 'o' : 'x';
-    if (winning(nextBoard[bigIdx])) {
-      nextBigBoard[bigIdx] = turn + '@';
-      if (winning(nextBigBoard)) {
-        nextTurn = '#';
-        skip = true;
-      }
-    }
-    if (!skip) {
-      if (nextBigBoard[i][1] == '@') { //local winner exists
-        nextBigBoard = nextBigBoard.map((x) => {
-          if (x[1] == ' ') return x[0] + '$';
-          else return x;
-        })
-      }
-      else {
-        nextBigBoard = nextBigBoard.map((x) => {
-          if (x[1] == '$') return x[0] + ' ';
-          else return x;
-        });
-        nextBigBoard[i] = nextBigBoard[i][0] + '$';
-      }
-    }
-    setTurn(nextTurn);
-    setBoard(nextBoard);
-    setBigBoard(nextBigBoard);
-  }
-
-
+export default function BigBoard({ turn, bigBoard, board, handleClick, resetClick }) { //put turn state in outer and keep track of winner that way plus underline next player
+  let hidden = turn != '#' ? "hidden" : null;
   return (
-    <div>
+    <div className="relative">
+      <button 
+        className={"absolute top-[calc(50%-200px)] left-[calc(50%-200px)] " + hidden}
+        onClick={resetClick}
+      >
+        <Image 
+          src={restartImage} 
+          width={400}
+          height={400}
+          alt="restart"
+        />
+      </button>
+    
       <div className="flex flex-row">
         <Board turn={turn} winner={bigBoard[0]} squares={board[0]} squareClick={(i) => handleClick(0, i)} />
         <Board turn={turn} winner={bigBoard[1]} squares={board[1]} squareClick={(i) => handleClick(1, i)} />

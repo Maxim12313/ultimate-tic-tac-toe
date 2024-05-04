@@ -27,7 +27,7 @@ export default function Board({ winner, squares, squareClick, turn }) {
       color = winner[0] == 'x' ? "border-blue-700" : "border-red-700";
       break;
     case '$': //active board
-      color = turn == 'x' ? "border-cyan-200" : "border-rose-200";
+      color = turn[0] == 'x' ? "border-cyan-200" : "border-rose-200";
       break;
     default: //inactive board
       color = "border-slate-300";
