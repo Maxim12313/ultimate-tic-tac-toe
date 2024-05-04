@@ -93,12 +93,14 @@ export default function Page() {
   return (
     <div className="flex flex-col">
       <div className="flex justify-center items-center">
-        <Link 
-          href="../"
-          className="font-bold text-5xl text-slate-700 my-10 leading-none"
-        >
-          Ultimate Tic-Tac-Toe
-        </Link>
+        <div className="flex justify-center items-center my-5 p-5 w-1/2 bg-orange-300 rounded-lg">
+          <Link 
+            href="../"
+            className="font-bold text-5xl text-slate-700 leading-none"
+          >
+            Ultimate Tic-Tac-Toe
+          </Link>
+        </div>
       </div>
       <div className="flex justify-around items-start flex-row mt-0">
         <div className="h-full flex flex-col items-center leading-snug">
