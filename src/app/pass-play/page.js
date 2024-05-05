@@ -1,7 +1,7 @@
 "use client";
 import BigBoard from '../../components/big-board';
+import Top from "../../components/top";
 import { useState } from "react";
-import Link from "next/link";
 
 export default function Page() {
   const [turn, setTurn] = useState('x');
@@ -91,29 +91,37 @@ export default function Page() {
   }
 
   return (
-    <div className="flex flex-col">
-      <div className="flex justify-center items-center">
-        <div className="flex justify-center items-center my-5 p-5 w-1/2 bg-orange-300 rounded-lg">
-          <Link 
-            href="../"
-            className="font-bold text-5xl text-slate-700 leading-none"
+    <div>
+      <Top mode="Pass and Play" />
+      <div className="flex justify-around flex-row mt-0">
+        <div className="h-full flex flex-col items-center leading-tight">
+          <span
+            className={
+              blueUnderline + " font-medium text-[12rem] text-blue-600"
+            }
           >
-            Ultimate Tic-Tac-Toe
-          </Link>
+            x
+          </span>
+          <span className="text-[6rem] text-black">{blueWins}</span>
+        </div>
+        <BigBoard
+          resetClick={resetClick}
+          turn={turn}
+          bigBoard={bigBoard}
+          board={board}
+          handleClick={handleClick}
+        />
+        <div className="h-full flex flex-col items-center leading-tight">
+          <span
+            className={
+              redUnderline + " font-medium text-[12rem] text-red-600"
+            }
+          >
+            o
+          </span>
+          <span className="text-[6rem] text-black-300">{redWins}</span>
         </div>
       </div>
-      <div className="flex justify-around items-start flex-row mt-0">
-        <div className="h-full flex flex-col items-center leading-snug">
-          <span className={blueUnderline + " font-medium text-[16rem] text-blue-600"}>x</span>
-          <span className="text-[8rem] text-black">{ blueWins }</span>
-        </div>
-        <BigBoard resetClick={resetClick} turn={turn} bigBoard={bigBoard} board={board} handleClick={handleClick} />
-        <div className="h-full flex flex-col items-center leading-snug">
-          <span className={redUnderline + " font-medium text-[16rem] text-red-600"}>o</span>
-          <span className="text-[8rem] text-black-300">{ redWins }</span>
-        </div>
-    </div>
-      
     </div>
   );
 }
