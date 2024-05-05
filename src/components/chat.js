@@ -3,12 +3,13 @@ import { useEffect, createElement } from "react";
 
 export default function ChatBox() {
   useEffect(() => {
-    const onMsg = (msg) => {
+    const onMsg = (msg, id) => {
       const div = document.querySelector("#chat-box");
       const message = document.createElement("h1");
       message.className = "bg-white odd:bg-slate-50 p-1 text-sm";
-      message.innerText = msg;
+      message.innerText = id + ": " + msg;
       div.appendChild(message);
+      div.scrollTop = div.scrollHeight;
     }
     socket.on("msg", onMsg);
     
@@ -20,20 +21,20 @@ export default function ChatBox() {
 
   const onSubmit = (event) => {
     const input = event.target.querySelector("input");
+    event.preventDefault();
     if (input.value) {
-      event.preventDefault();
-      socket.emit("msg", input.value);
+      socket.emit("msg", input.value, socket.id.substring(0, 4));
       input.value = '';
     }
   } 
 
   return (
-    <div className="flex flex-col w-96 h-48 p-5 bg-yellow-200">
-      <div id="chat-box" className="flex flex-col mb-2">
+    <div className="flex flex-col w-96 h-48 justify-between border-2 border-black rounded-md">
+      <div id="chat-box" className="flex flex-col mb-2 overflow-y-scroll">
 
       </div>
       <form onSubmit={onSubmit}>
-        <input autoComplete="off" className="w-full px-1 border-2"></input>        
+        <input autoComplete="off" className="w-full px-1 border-t-2 border-black rounded-sm"></input>        
       </form>
     </div>
   );

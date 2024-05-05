@@ -36,8 +36,8 @@ app.prepare().then(() => {
       });
     });
 
-    socket.on("msg", (msg) => {
-      io.to(socket.gameId).emit("msg", msg);
+    socket.on("msg", (msg, id) => {
+      io.to(socket.gameId).emit("msg", msg, id);
     });
   });
   
