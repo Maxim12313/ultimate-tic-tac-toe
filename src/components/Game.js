@@ -65,10 +65,6 @@ export default function Game({ nameX, nameO, isMultiplayer, isX }) {
     setBoard(nextBoard);
     setBigBoard(nextBigBoard);
   }
-  
-  const cacheUpdateBoard = useCallback(updateBoard, [
-    turn, blueWins, redWins, bigBoard, board
-  ]);
 
   const reset = () => {
     const loser = lastWinner != 'x' ? 'x' : 'o';
@@ -81,6 +77,15 @@ export default function Game({ nameX, nameO, isMultiplayer, isX }) {
     setOtherReset(false);
   }
   
+  const cacheUpdateBoard = useCallback(updateBoard, [
+    turn, blueWins, redWins, bigBoard, board
+  ]);
+  
+  const cacheReset = useCallback(reset, [
+    isX, lastWinner
+  ]);
+
+  
   useEffect(() => {
     if (!socket.connected) return;
 
@@ -92,7 +97,7 @@ export default function Game({ nameX, nameO, isMultiplayer, isX }) {
     const onReset = () => {
       setOtherReset(true);
       if (thisReset) {
-        reset();
+        cacheReset();
       }
     }
     
@@ -103,7 +108,7 @@ export default function Game({ nameX, nameO, isMultiplayer, isX }) {
       socket.off("play", onPlay);
       socket.off("reset", onReset);
     }
-  }, [cacheUpdateBoard, thisReset]);
+  }, [cacheUpdateBoard, cacheReset, thisReset]);
 
   
   const winning = (squares) => {
