@@ -5,10 +5,15 @@ import { Server } from "socket.io";
 const port = 8080;
 const app = express(); 
 const server = createServer(app); 
+
+const development = "http://localhost:3000";
+const production = "http://localhost:3000";
+const frontEnd = process.env.NODE_ENV == "development" ? development : production;
+
 const io = new Server(server, { 
   connectonStateRecovery: {},
   cors : {
-    origin: "http://localhost:3000"
+    origin: frontEnd
   }
 });
 
