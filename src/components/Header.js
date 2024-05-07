@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { socket } from "../app/socket";
 
 export default function Header({ mode }) {
   return (
@@ -7,6 +8,9 @@ export default function Header({ mode }) {
       <Link
         href="../"
         className="font-bold text-5xl text-slate-700 leading-none"
+        onClick={() => {
+          socket.disconnect();
+        }}
       >
         Ultimate Tic-Tac-Toe
       </Link>

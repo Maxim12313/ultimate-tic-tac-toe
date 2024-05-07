@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import Board from "./mini-board";
+import Board from "./MiniBoard";
 import Image from "next/image";
 import restartImage from "../images/restart.png";
 
